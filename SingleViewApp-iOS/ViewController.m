@@ -40,6 +40,31 @@
     self.blurBackground.alpha = 0;
 
     
+    //Set the amount of play we will have horizontally
+    CGFloat offset = 50.0f;
+    
+    
+    //Horizontal motion effect
+    UIInterpolatingMotionEffect *horizontalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+    
+    horizontalEffect.minimumRelativeValue = @(-offset);
+    horizontalEffect.maximumRelativeValue = @(offset);
+    
+    
+    
+    //Vertical motion effect
+    UIInterpolatingMotionEffect *verticalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+    
+    verticalEffect.minimumRelativeValue = @(-offset);
+    verticalEffect.maximumRelativeValue = @(offset);
+    
+    
+    UIMotionEffectGroup *effectGroup = [[UIMotionEffectGroup alloc] init];
+    effectGroup.motionEffects = @[horizontalEffect, verticalEffect];
+    
+    
+    [self.backgroundImage addMotionEffect:effectGroup];
+    [self.blurBackground addMotionEffect:effectGroup];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -73,8 +98,9 @@
     }
     
     //Set the y to the image views
-    self.blurBackground.frame = CGRectMake(0, -sizeDifference+offset, 360, self.blurBackground.frame.size.height);
-    self.backgroundImage.frame = CGRectMake(0, -sizeDifference+offset, 360, self.blurBackground.frame.size.height);
+    self.backgroundImage.frame = CGRectMake(-50, -sizeDifference+offset, self.backgroundImage.frame.size.width, self.backgroundImage.frame.size.height);
+    self.blurBackground.frame = CGRectMake(-50, -sizeDifference+offset, self.blurBackground.frame.size.width, self.blurBackground.frame.size.height);
+
 
     
     //Set the alpha of the blur to appear exponetially
